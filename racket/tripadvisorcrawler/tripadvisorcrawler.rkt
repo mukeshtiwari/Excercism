@@ -34,11 +34,13 @@
            ['() (cons url empty)]
            [page-num-list
             (let*
-                ([link (range (string->number (first page-num-list)) (+ 1 (string->number (last page-num-list))))]
+                ([link (range (string->number (first page-num-list))
+                              (+ 1 (string->number (last page-num-list))))]
                  [ret (map (λ(x) (string-append "https://www.tripadvisor.in"
-                                                   "/Hotels-g304554-oa"
-                                                   (number->string (* 30 (- x 1)))
-                                                   "-Mumbai_Bombay_Maharashtra-Hotels.html")) link)])
+                                                "/Hotels-g304554-oa"
+                                                (number->string (* 30 (- x 1)))
+                                                "-Mumbai_Bombay_Maharashtra-Hotels.html"))
+                           link)])
               (cons url ret))])))
          
 (define doc
