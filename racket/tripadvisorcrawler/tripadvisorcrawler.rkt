@@ -31,7 +31,7 @@
          [doc ((sxpath "(//div[@class=\"pageNumbers\"]/a[@href])") page)]
          [page-num (map (λ(x) (sxml:attr x 'data-page-number)) doc)])
          (match page-num
-           ['() url]
+           ['() (cons url empty)]
            [page-num-list
             (let*
                 ([link (range (string->number (first page-num-list)) (+ 1 (string->number (last page-num-list))))]
@@ -41,5 +41,8 @@
                                                    "-Mumbai_Bombay_Maharashtra-Hotels.html")) link)])
               (cons url ret))])))
          
+(define doc
+  (city-url-list "https://www.tripadvisor.in/Hotels-g3458458-Portland_Parish_Jamaica-Hotels.html"))
 
-(city-url-list "https://www.tripadvisor.in/Hotels-g3458458-Portland_Parish_Jamaica-Hotels.html")
+;write a function that fetch the name of hotel and its review url
+;(struct 
