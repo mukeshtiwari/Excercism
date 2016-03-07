@@ -65,12 +65,18 @@
 (struct hotel (name url num-reviews rating))
 
 (define (page-struct-info div-node)
-  (let* ([page-title ((sxpath "(//div[@class=\"listing_title\"]/a)/text()") div-node)]
-         [page-url (sxml:attr (first ((sxpath "(//div[@class=\"listing_title\"]/a)") div-node)) 'href)]
-         [num-review ((sxpath "(//span[@class=\"more\"]/a)/text()") div-node)]
-         [tripadvisor-rank ((sxpath "(//div[@class=\"slim_ranking\"])/text()") div-node)])
-    (list page-title page-url num-review tripadvisor-rank)))
-         
+  (let* ([page-title
+          ((sxpath "(//div[@class=\"listing_title\"]/a)/text()") div-node)]
+         [page-url
+          (sxml:attr (first ((sxpath "(//div[@class=\"listing_title\"]/a)") div-node)) 'href)]
+         [num-review
+          ((sxpath "(//span[@class=\"more\"]/a)/text()") div-node)]
+         [tripadvisor-rank
+          ((sxpath "(//div[@class=\"slim_ranking\"])/text()") div-node)]
+         [tripadvisor-rating
+          (sxml:attr (first ((sxpath "(//img[@class=\"sprite-ratings\"])") div-node)) 'alt)])
+    (list page-title page-url num-review tripadvisor-rank tripadvisor-rating)))
+
 ;(hotel-info "https://www.tripadvisor.in/Hotels-g60713-oa30-San_Francisco_California-Hotels.html")
 ;go with html parsing and plug it later the url
 (define (hotel-info-page page)
