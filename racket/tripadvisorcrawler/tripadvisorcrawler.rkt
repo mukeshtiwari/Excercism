@@ -19,20 +19,27 @@
          [hot (hash-ref doc 'results)]
          [all-link (map (λ(x) (hash-ref x 'url)) hot)]
          [ret (map (λ(x) (string-append "https://www.tripadvisor.in" x)) all-link)])
-  ret))
+    ret))
 
 
-
+;you pass the url of city to fetch all the url links
+;related to city (number of pages on tripadvisor)
 (define (city-url-list url)
   (let* ([page (html->xexp
                 (get-pure-port
                  (string->url url)))]
          [doc ((sxpath "(//div[@class=\"pageNumbers\"]/a[@href])") page)]
-         [page-num (map (λ(x) (sxml:attr x 'data-page-number)) doc)]
-         [link (range (string->number (first page-num)) (+ 1 (string->number (last page-num))))]
-         [ret (map (λ(x) (string-append "https://www.tripadvisor.in"
-                                        "/Hotels-g304554-oa"
-                                        (number->string (* 30 (- x 1)))
-                                        "-Mumbai_Bombay_Maharashtra-Hotels.html")) link)])
-    (cons (string-append  "https://www.tripadvisor.in" url) ret)))
+         [page-num (map (λ(x) (sxml:attr x 'data-page-number)) doc)])
+         (match page-num
+           ['() url]
+           [page-num-list
+            (let*
+                ([link (range (string->number (first page-num-list)) (+ 1 (string->number (last page-num-list))))]
+                 [ret (map (λ(x) (string-append "https://www.tripadvisor.in"
+                                                   "/Hotels-g304554-oa"
+                                                   (number->string (* 30 (- x 1)))
+                                                   "-Mumbai_Bombay_Maharashtra-Hotels.html")) link)])
+              (cons url ret))])))
+         
 
+(city-url-list "https://www.tripadvisor.in/Hotels-g3458458-Portland_Parish_Jamaica-Hotels.html")
